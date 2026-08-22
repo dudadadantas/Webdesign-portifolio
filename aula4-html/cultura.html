@@ -2,12 +2,12 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Moda e Esporte da Quebrada</title>
+    <title>Cultura e Gastronomia da Periferia</title>
 </head>
 <body>
 
-    <h1>Formulário de Estilo e Esportes</h1>
-    <p>Responda para ajudar no mapeamento de tendências urbanas</p>
+    <h1>Cultura, Música e Rango</h1>
+    <p>Dados coletados sobre os ritmos e sabores mais marcantes</p>
 
     <p>
         <a href="index.html">🏠 Início / Textos</a> | 
@@ -18,75 +18,67 @@
     <hr>
 
     <div>
-        <h2>Formulário de Cadastro de Tendências</h2>
+        <h2>Pesquisa de Preferências: Ritmos e Rangos por Zona de SP</h2>
+        <p>Abaixo está a tabela organizada com os dados dos questionários:</p>
         
-        <form oninput="resultadoNota.value = notaEstilo.value">
-            
-            <p>
-                <label for="nome">Nome Completo ou Vulgo:</label><br>
-                <input type="text" id="nome" name="nome" placeholder="Ex: Mc Lipinho">
-            </p>
-
-            <p>
-                <label for="email">E-mail de Contato:</label><br>
-                <input type="email" id="email" name="email" placeholder="nome@provedor.com">
-            </p>
-
-            <p>
-                <label for="data-nasc">Data de Nascimento:</label><br>
-                <input type="date" id="data-nasc" name="data-nasc">
-            </p>
-
-            <p>
-                <label>Quais esportes e lazer você pratica na quebrada? (Marque quantos quiser)</label><br>
-                
-                <input type="checkbox" id="esp1" name="esportes" value="futebol">
-                <label for="esp1">Futebol de Várzea / Quadra</label><br>
-                
-                <input type="checkbox" id="esp2" name="esportes" value="skate">
-                <label for="esp2">Skate / Patins</label><br>
-                
-                <input type="checkbox" id="esp3" name="esportes" value="basquete">
-                <label for="esp3">Basquete de Rua</label><br>
-                
-                <input type="checkbox" id="esp4" name="esportes" value="passinho">
-                <label for="esp4">Dança / Passinho</label>
-            </p>
-
-            <p>
-                <label for="marca-fav">Qual marca de roupa ou tênis é mais cobiçada por aqui?</label><br>
-                <input list="marcas" id="marca-fav" name="marca-fav" placeholder="Digite ou selecione...">
-                <datalist id="marcas">
-                    <option value="Oakley">
-                    <option value="Nike">
-                    <option value="Adidas">
-                    <option value="Cyclone">
-                    <option value="Lacoste">
-                </datalist>
-            </p>
-
-            <p>
-                <label for="instituicao">Onde você foca seus estudos atualmente?</label><br>
-                <select id="instituicao" name="instituicao">
-                    <optgroup label="Ensino Técnico e Regular">
-                        <option value="escola-publica">Escola Pública Estadual</option>
-                        <option value="etec">ETEC ou Instituto Federal</option>
-                    </optgroup>
-                    <optgroup label="Projetos e Ensino Superior">
-                        <option value="ong">Fábricas de Cultura / ONG Local</option>
-                        <option value="cursinho">Cursinho Popular da Quebrada</option>
-                        <option value="faculdade">Universidade / Faculdade</option>
-                    </optgroup>
-                </select>
-            </p>
-
-            
-
-        </form>
+        <table border="1">
+            <tr>
+                <th>Zona de São Paulo</th>
+                <th>Estilo Musical Dominante</th>
+                <th>Comida Mais Consumida no Rolê</th>
+            </tr>
+            <tr>
+                <td>Zona Leste</td>
+                <td>Funk / Trap</td>
+                <td>Pastel de Feira com Caldo de Cana</td>
+            </tr>
+            <tr>
+                <td>Zona Sul</td>
+                <td>Rap / Hip-Hop</td>
+                <td>Dogão Completo com Duas Salsichas</td>
+            </tr>
+            <tr>
+                <td>Zona Norte</td>
+                <td>Samba / Pagode</td>
+                <td>Espetinho na Brasa (Gato)</td>
+            </tr>
+            <tr>
+                <td>Zona Oeste / Centro</td>
+                <td>Pop / Eletrônica</td>
+                <td>Pizza em Pedaço</td>
+            </tr>
+        </table>
     </div>
 
+
+    
     <hr>
     <p>Aula de HTML Básico - Criado com a Quebrada</p>
+    <p>
+        <label for="notaestilo">De 0 a 10, o quanto a moda representa a sua identidade</label><br>
+        <input type="range" id="notaEstilo" name="notaEstilo" min="0" max="10" value="5">
+<span>Nota Selecionada: <output name="resultadonota"
+for="notaestilo">5</output></span>
+
+    </p>
+    <p>
+    <label for="acessorios">quais acessorios completam o seu look? (segure Ctrl para selecionar mais de um)</label><br>
+    <select id="acessorios"Name="acessorios"multiple size="4">
+        <option value="boné">Boné</option>
+        <option value="colar">colar</option>
+        <option value="brinco">brinco</option>
+        <option value="pulseira">pulseira</option>
+        <option value="anel">anel</option>
+        <option value="joias">joias</option>
+        <option value="bolsas">bolsas</option>
+        <option value="oculos">oculos</option>
+    </select>
+</p>
+<P>
+    <button type="submit">Enviar</button>
+     <button type="reset">limpar formulario</button>
+</P>
+<p></p>
 
 </body>
 </html>
