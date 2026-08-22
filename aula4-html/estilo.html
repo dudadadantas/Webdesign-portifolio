@@ -1,68 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>moda e esporte</title>
+    <title>Moda e Esporte da Quebrada</title>
 </head>
 <body>
-    <h1>formulario de estilo e esportes</h1>
-    <p>responda para ajudar no mapeamento de tendencias urbanas</p>
+
+    <h1>Formulário de Estilo e Esportes</h1>
+    <p>Responda para ajudar no mapeamento de tendências urbanas</p>
+
     <p>
-        <a href="index.html">🏠 inicio/textos</a> |
-        <a href="Cultura.html">🎶 Musica e culinaria</a> |
-        <a href="estilo.html">👕 Moda e esporte</a> |
+        <a href="index.html">🏠 Início / Textos</a> | 
+        <a href="cultura.html">🎵 Música e Culinária (Tabelas)</a> | 
+        <a href="estilo.html">👟 Moda e Esporte (Formulários)</a>
     </p>
+
     <hr>
 
-    <form oninput="resultadonota.value=notaestilo.value">
-       <p>
-        <label for="nome">Nome completo:</label>
-        <input type="text" id="nome" name="nome"placehoder="Ex.deolane">
-       </p> 
-       <p>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="ex.@dominio.com">
-       </p>
-       <p>
-        <label for="data-nascimento">Data de nascimento:</label>
-        <input type="date" id="data-nascimento" name="data-nascimento">
-       </p>
-       <p>
-        <label>quais esportes e lazer você pratica? >(Marcar quantos quiser)</label> <br>
-        <input type="checkbox"id="esp1" name="esportes" value="futebol">
-    <label for="esp1">Futebol de várzea/Quadra</label><br>
-    <input type="checkbox" id="esp2" name="esportes" value="basquete">
-    <label for="esp2">Basquete</label><br>
-    <input type="checkbox" id="esp3" name="esportes" value="natação">
-    <label for="esp3">Natação</label><br>
-    <input type="checkbox" id ="esp4" name="esportes" value="academia">
-    <label for="esp4">Academia</label><br>
-      </p>
-      <p>
-        <label for="marca">Qual marca de roupa ou tênis que você prefere?</label> <br><br>
-        <input list="marcas" id="marca" name="marca" placeholder="Ex. Nike, Adidas, Puma">
-        <datalist id="marcas">
-            <option value="nike">Nike</option>
-            <option value="adidas">Adidas</option><br>
-            <option value="puma">Puma</option><br>
-            <option value="Renner">Renner</option><br>
-            <option value="C&A">C&A</option><br>
-            <option value="Hering">Hering</option><br>
-        </datalist>
-      </p>
+    <div>
+        <h2>Formulário de Cadastro de Tendências</h2>
+        
+        <form oninput="resultadoNota.value = notaEstilo.value">
+            
+            <p>
+                <label for="nome">Nome Completo ou Vulgo:</label><br>
+                <input type="text" id="nome" name="nome" placeholder="Ex: Mc Lipinho">
+            </p>
+
+            <p>
+                <label for="email">E-mail de Contato:</label><br>
+                <input type="email" id="email" name="email" placeholder="nome@provedor.com">
+            </p>
+
+            <p>
+                <label for="data-nasc">Data de Nascimento:</label><br>
+                <input type="date" id="data-nasc" name="data-nasc">
+            </p>
+
+            <p>
+                <label>Quais esportes e lazer você pratica na quebrada? (Marque quantos quiser)</label><br>
+                
+                <input type="checkbox" id="esp1" name="esportes" value="futebol">
+                <label for="esp1">Futebol de Várzea / Quadra</label><br>
+                
+                <input type="checkbox" id="esp2" name="esportes" value="skate">
+                <label for="esp2">Skate / Patins</label><br>
+                
+                <input type="checkbox" id="esp3" name="esportes" value="basquete">
+                <label for="esp3">Basquete de Rua</label><br>
+                
+                <input type="checkbox" id="esp4" name="esportes" value="passinho">
+                <label for="esp4">Dança / Passinho</label>
+            </p>
+
+            <p>
+                <label for="marca-fav">Qual marca de roupa ou tênis é mais cobiçada por aqui?</label><br>
+                <input list="marcas" id="marca-fav" name="marca-fav" placeholder="Digite ou selecione...">
+                <datalist id="marcas">
+                    <option value="Oakley">
+                    <option value="Nike">
+                    <option value="Adidas">
+                    <option value="Cyclone">
+                    <option value="Lacoste">
+                </datalist>
+            </p>
+
+            
+         <label for="instituicao">Onde voce foca seus estudos?</label><br>
+         <select id="instituicao" name="intituicao">
+            <optgroup label="Ensino Técnico e Regular"></option value="etec">Escola Tecnica</option>
+            
+            </optgroup>
+           <optgroup label="Projetos e Ensino Superior">
+            <option value="ong">Fabrica de Cultura / ONG Local</option>
+           </option value="cursinho">Cursinho popular</option>
+     
+            </optgroup>
+        </select>
         <p>
-            <label for="instituicao">onde você foca os seus estudos atualmente?</label>
-            <select id="instituicao" name="instituicao">
-          <optgroup label="ensino tecnico regular">
-            <option value="escola-estadual">escola publica</option>
-            <option value="escola-particular">escola particular</option>
-          </optgroup>optgrroup projeto e ensino superior>
-            <option value="faculdade">faculdade</option>
-            <option value="cursos">cursos livres</option>
-          </select>
-          
+        <label for="acessorios">quais acessórios completam seu kit?</label><br>
+        <select id="acessorios" name="acessorios" multiple size="4">
+            <option value="bone">Boné de marca</option>
+            <option value="brinco">Brinco de prata</option>
+            <option value="anel">Anel de ouro</option>
+            <option value="colar">Colar de perolas</option>
+         </select>
         </p>
-    </form>
+    </p>
+    <p> 
+    <label for="notaEstilo">De 0 a 10, o quanto a moda representa a sua identidade?</label>
+    <input type="range" id="notaEstilo" name="notaEstilo" min="0" max="10" value="5">
+    <span>nota selecionada:
+    <output name="resultadoNota" for="notaEstilo">5</>   
+    </p>
+        </form>
+    </div>
+
+    <hr>
+    <p>Aula de HTML Básico - Criado com a Quebrada</p>
+
 </body>
 </html>
