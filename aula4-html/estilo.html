@@ -1,57 +1,68 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cultura e Gastronomia da Periferia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>moda e esporte</title>
 </head>
 <body>
-
-    <h1>Cultura, Música e Rango</h1>
-    <p>Dados coletados sobre os ritmos e sabores mais marcantes</p>
-
+    <h1>formulario de estilo e esportes</h1>
+    <p>responda para ajudar no mapeamento de tendencias urbanas</p>
     <p>
-        <a href="index.html">🏠 Início / Textos</a> | 
-        <a href="cultura.html">🎵 Música e Culinária (Tabelas)</a> | 
-        <a href="estilo.html">👟 Moda e Esporte (Formulários)</a>
+        <a href="index.html">🏠 inicio/textos</a> |
+        <a href="Cultura.html">🎶 Musica e culinaria</a> |
+        <a href="estilo.html">👕 Moda e esporte</a> |
     </p>
-
     <hr>
 
-    <div>
-        <h2>Pesquisa de Preferências: Ritmos e Rangos por Zona de SP</h2>
-        <p>Abaixo está a tabela organizada com os dados dos questionários:</p>
-        
-        <table border="1">
-            <tr>
-                <th>Zona de São Paulo</th>
-                <th>Estilo Musical Dominante</th>
-                <th>Comida Mais Consumida no Rolê</th>
-            </tr>
-            <tr>
-                <td>Zona Leste</td>
-                <td>Funk / Trap</td>
-                <td>Pastel de Feira com Caldo de Cana</td>
-            </tr>
-            <tr>
-                <td>Zona Sul</td>
-                <td>Rap / Hip-Hop</td>
-                <td>Dogão Completo com Duas Salsichas</td>
-            </tr>
-            <tr>
-                <td>Zona Norte</td>
-                <td>Samba / Pagode</td>
-                <td>Espetinho na Brasa (Gato)</td>
-            </tr>
-            <tr>
-                <td>Zona Oeste / Centro</td>
-                <td>Pop / Eletrônica</td>
-                <td>Pizza em Pedaço</td>
-            </tr>
-        </table>
-    </div>
-
-    <hr>
-    <p>Aula de HTML Básico - Criado com a Quebrada</p>
-
+    <form oninput="resultadonota.value=notaestilo.value">
+       <p>
+        <label for="nome">Nome completo:</label>
+        <input type="text" id="nome" name="nome"placehoder="Ex.deolane">
+       </p> 
+       <p>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="ex.@dominio.com">
+       </p>
+       <p>
+        <label for="data-nascimento">Data de nascimento:</label>
+        <input type="date" id="data-nascimento" name="data-nascimento">
+       </p>
+       <p>
+        <label>quais esportes e lazer você pratica? >(Marcar quantos quiser)</label> <br>
+        <input type="checkbox"id="esp1" name="esportes" value="futebol">
+    <label for="esp1">Futebol de várzea/Quadra</label><br>
+    <input type="checkbox" id="esp2" name="esportes" value="basquete">
+    <label for="esp2">Basquete</label><br>
+    <input type="checkbox" id="esp3" name="esportes" value="natação">
+    <label for="esp3">Natação</label><br>
+    <input type="checkbox" id ="esp4" name="esportes" value="academia">
+    <label for="esp4">Academia</label><br>
+      </p>
+      <p>
+        <label for="marca">Qual marca de roupa ou tênis que você prefere?</label> <br><br>
+        <input list="marcas" id="marca" name="marca" placeholder="Ex. Nike, Adidas, Puma">
+        <datalist id="marcas">
+            <option value="nike">Nike</option>
+            <option value="adidas">Adidas</option><br>
+            <option value="puma">Puma</option><br>
+            <option value="Renner">Renner</option><br>
+            <option value="C&A">C&A</option><br>
+            <option value="Hering">Hering</option><br>
+        </datalist>
+      </p>
+        <p>
+            <label for="instituicao">onde você foca os seus estudos atualmente?</label>
+            <select id="instituicao" name="instituicao">
+          <optgroup label="ensino tecnico regular">
+            <option value="escola-estadual">escola publica</option>
+            <option value="escola-particular">escola particular</option>
+          </optgroup>optgrroup projeto e ensino superior>
+            <option value="faculdade">faculdade</option>
+            <option value="cursos">cursos livres</option>
+          </select>
+          
+        </p>
+    </form>
 </body>
 </html>
