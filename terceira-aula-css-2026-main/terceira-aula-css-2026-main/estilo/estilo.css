@@ -1,0 +1,122 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    min-height: 100vh;
+    font-family:Arial, Helvetica, sans-serif;
+    position: relative;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+
+}
+/* ==== VÍDEO DE FUNDO ==== */
+
+/* o vídeo fica fixo, atrás de tudo, cobrindo a tela inteira */ 
+.bg-video{
+position:fixed;
+top: 0;
+left: 0;
+width: 100%;
+height:100%;
+z-index: -2;
+}
+/* camada escura por cima do vídeo, para  texto ficar legível */
+.bg-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    z-index: -1;
+}
+
+/* ==== CABEÇALHO ==== */ 
+
+header{
+    text-align: center;
+    color: #ffff;
+    margin-bottom:: 40px;
+
+}
+header p{
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+/* ==== cards ==== */
+.container-cards{
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.container-cards{
+    position:relative;
+    width: 280px;
+    height: 380px;
+    border-radius: 16px;
+    overflow:hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    cursor:pointer;
+
+}
+.card-img{
+    width:100%;
+    height: 100%;
+    object-fit: cover;
+    /* essa transição faz a imagem cresdcer suavemente */
+    transition: transform 0.5 ease;
+}
+/* ao passar o mouse, a imagem dá um leve zoom */
+.card:hover img{
+    transform: scale (1,5)
+    /* o conteudo do card fica escondido embaixo, fora da vista */
+    .card-conteudo{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 20px;
+        color: #fff;
+        background:linear-gradient(to top, rgba(0,0,0,0.9), transparent );
+        /*começa deslocando para baixo e invisivel*/
+        transform: translateY(60%);
+        opacity: 0;
+        transition: transform 0.4s ease, 
+        opacity 0.4s  ease;
+
+    }
+}
+/* ao passar o mouse no card, o conteúdo sobe e aparece */
+.card:hover .card-conteudo{
+    transform: translateY(0);
+    opacity: 1;
+
+}
+.card-conteudo h3{
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+
+}
+.card-conteudop p{
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+    opacity: 0.9;
+
+}
+.btn{
+    display: inline-block;
+    padding 8px 19px;
+    background: #ffff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: bold;
+
+}
