@@ -1,0 +1,1614 @@
+/* =========================================================================
+   ESPAÇO FIGITAL — CSS v3 · Bento Neon Dark 2026
+   Curso de Web Design 2026-2 | Vocação
+   Tópicos de hoje: variáveis :root | seleção, estilização e herança |
+                    animações e transições | Flexbox | Grid |
+                    layouts responsivos
+   =========================================================================
+   O HTML não foi alterado — todo o visual (grade de fundo, números
+   editoriais, rótulos mono, botão "falso" no menu, contadores automáticos,
+   indicador mágico de navegação) é feito SOMENTE com CSS: variáveis,
+   pseudo-classes, pseudo-elementos e counters.
+   Percorra o arquivo de cima para baixo — cada bloco é um tópico da aula.
+   ========================================================================= */
+
+/* Fontes extras (a Inter já vem pelo <link> do HTML).
+   @import também é CSS — carregamos o resto sem tocar no HTML. */
+@import url('https://fonts.googleapis.com/css2family=Outfit:width@300;400;500;600;700;800;900&family=Space+Grotesk:width@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unica+One&display=swap');
+
+
+/* =========================================================================
+   1) VARIÁVEIS :root
+   Variáveis CSS (custom properties) guardam valores reutilizáveis.
+   Vantagem: mudar um valor aqui muda o site inteiro.
+   Sintaxe: --nome-da-variavel: valor;  /  usar com var(--nome-da-variavel)
+   ========================================================================= */
+:root{
+    /*--- paleta: tema "cyber figital" ---*/
+    --preto: #050508; /*fundo profundo - o espaço*/
+    --preto-suave: #0d0d14; /*fundo secundário*/
+    --preto-card: #111120; /*fundo do bento cards*/
+    --preto-glass: rgba(13,13,20,0.75); /*glassmorphism*/
+    /*--cor primaria: Ciano Eletrico--*/
+    --ciano: #00f5ff;
+    --ciano-glow: rgba(0,245,255,0.35);
+    --ciano-dim: rgba(0,245,255,0.08);
+    --ciano-escuro: #001f22;
+    /*--cor secundaria: Violeta/roxo--*/
+    --violeta: #a855f7;
+    --violeta-glow: rgba(168, 85, 247, 0.35);
+    --violeta-dim: rgba(168, 85, 247, 0.08);
+    --violeta-escuro: #2d1b4e;
+    /*Acento: verde neon*/
+    --verde-neon: #39ff14;
+    --verde-dim: rgba(57, 255, 20, 0.1);
+    /*textos*/
+    --texto-claro: #eeeeff;
+    --texto-claro-suave: rgba(238, 238, 245, 0.05);
+    --texto-claro-dim: rgba(238, 138, 255, 0.25);
+    --borda: rgba(0, 245, 255, 0.12);
+    --borda-forte: rgba(0, 245, 255, 0.04);
+    --linha-grid: rgba(0, 245, 255, 0.04);
+    /*tipografia*/
+    --fonte-display: 'Outfit', 'arial black', sans-serif;
+    --fonte-texto: 'Space Grotesk', 'inter', arial, sans-serif;
+    --fonte-mono: 'Space Mono', 'Courier New', monospace;
+    /*espaçamento*/
+    --espaco-xs: 0.5rem;
+    --espaco-sm: 0.75rem;
+    --espaco-lg: 3rem;
+    --espaco-lx: 6rem;
+
+    --raio: 12px;
+    --raio-lg: 20px;
+    --raio-pill: 999px;
+    --sombra-ciano: 0 0 40px rgba(0, 245, 255, 0.15), 0 24px 48px rgba(0, 0, 0, 0.5);
+    --sombra-violeta: 0 0 40px rgba(168, 85, 247, 0.2), 0 24px 48px rgba(0, 0, 0, 0.5);
+    --sombra-card: 0 8px 32px rgba(0, 0, 0.4);
+}
+
+
+
+/* =========================================================================
+   2) SELEÇÃO, ESTILIZAÇÃO E HERANÇA
+   - Reset simples remove estilos padrão do navegador.
+   - "*" seleciona TODOS os elementos (seletor universal).
+   - Propriedades como color, font-family e line-height são HERDADAS:
+     defina uma vez no <body> e os filhos recebem automaticamente.
+   - Propriedades como margin, padding e border NÃO são herdadas.
+   ========================================================================= */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* Mantém a scrollbar e evita layout shift */
+    scrollbar-width: thin;
+    scrollbar-color: var(--ciano) var(--preto-suave);
+}
+
+body {
+    font-family: var(--fonte-texto);      /* herdado por todos os filhos */
+    color: var(--texto-claro);            /* herdado por p, li, span, etc. */
+    line-height: 1.65;
+    background-color: var(--preto);
+    background-image:
+        /* Grade decorativa global: pontinhos de ciano quase invisíveis */
+        radial-gradient(circle, var(--linha-grid) 1px, transparent 1px);
+    background-size: var(--grade) var(--grade);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* "Nebulosa" de gradiente no fundo — efeito atmosférico */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0, 245, 255, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+h1, h2, h3 {
+    font-family: var(--fonte-display);    /* sobrescreve a herança do body */
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+}
+
+p {
+    max-width: 62ch; /* linhas curtas = leitura confortável */
+}
+
+a {
+    color: inherit;        /* inherit pede explicitamente o valor do pai */
+    text-decoration: none;
+}
+
+ul { list-style: none; }
+
+/* Seletor de classe (.card) x seletor de elemento (article):
+   .card tem mais especificidade — "ganha" quando os dois definem o mesmo. */
+article {
+    color: var(--texto-claro-suave);
+}
+
+.card {
+    color: var(--texto-claro); /* esta regra vence, por especificidade */
+}
+
+/* Rótulos mono: font-family substituí a herança do body aqui. */
+.hero__eyebrow,
+.passo__numero {
+    font-family: var(--fonte-mono);
+}
+
+img, video {
+    max-width: 100%;
+    display: block;
+    border-radius: var(--raio);
+}
+
+
+/* =========================================================================
+   3) HEADER — MENU MÁGICO COM INDICADOR DESLIZANTE
+   Inspirado no "Magic Navigation Menu Indicator" (CSS puro).
+   O indicador é criado com ::before no <ul> — sem nenhum elemento extra
+   no HTML. Flexbox alinha o logo e a nav na mesma linha.
+
+   Flexbox: display: flex ativa o modelo flexível.
+   justify-content = eixo principal (horizontal)
+   align-items    = eixo cruzado (vertical)
+   ========================================================================= */
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--espaco-md);
+    padding: 0 var(--espaco-lg);
+    height: 72px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    /* Glassmorphism: fundo semi-transparente + desfoque */
+    background: rgba(5, 5, 8, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--borda);
+
+    /* Linha brilhante na borda inferior */
+    box-shadow: 0 1px 0 0 var(--ciano-dim), 0 4px 32px rgba(0,0,0,0.4);
+}
+
+/* Logo: animação de entrada sutil */
+.topo__marca {
+    animation: surgirLogo 0.8s var(--transicao-lenta) both;
+}
+
+.topo__logo {
+    font-family: var(--fonte-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.03em;
+    color: var(--texto-claro);
+
+    /* Gradiente no texto */
+    background: linear-gradient(135deg, var(--texto-claro) 30%, var(--ciano));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.topo__logo strong {
+    /* O <strong> está dentro do gradiente — herda o efeito */
+    font-style: normal;
+}
+
+/* -----------------------------------------------------------------------
+   MENU NAV — Indicador Mágico Deslizante (CSS puro, sem JavaScript)
+   O truque: o <ul> tem position: relative e o ::before cria um bloco
+   que serve de "pílula" destacando o item ativo (ou hovered).
+   Cada <li> ao receber :hover "move" o indicador via CSS variables.
+   ----------------------------------------------------------------------- */
+
+
+/* O indicador deslizante — feito 100% com CSS, sem JS, sem HTML extra.
+   É o ::before do <ul>, posicionado absolutamente. */
+
+
+/* Quando o 1º li recebe hover, indicador vai para posição 0 */
+
+/* Quando o 2º li recebe hover */
+
+/* Quando o 3º li recebe hover */
+
+/* Quando o 4º li recebe hover */
+
+/* Quando o 5º li (Contato) recebe hover — botão separado, indicador some */
+
+
+
+
+
+
+
+
+/* O último link ("Contato") é separado — botão magenta destacado.
+   :last-child é uma pseudo-classe estrutural — nenhum elemento extra no HTML. */
+
+
+
+
+
+
+
+/* =========================================================================
+   4) ANIMAÇÕES E TRANSIÇÕES
+   - transition: anima UMA mudança de estado (ex.: hover), de A para B.
+   - @keyframes + animation: cria uma sequência própria, que pode repetir,
+     rodar sozinha ao carregar, ter vários estágios (0% a 100%).
+   ========================================================================= */
+
+/* Entrada do logo */
+@keyframes surgirLogo {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Entrada dos textos do hero */
+@keyframes surgirCima {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Entrada da imagem do hero (da direita) */
+@keyframes surgirDireita {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Pulso do eyebrow */
+@keyframes pulsoLinha {
+    0%, 100% { width: 0; }
+    50%       { width: 60px; }
+}
+
+/* Glow pulsante nos títulos */
+@keyframes glowPulso {
+    0%, 100% { text-shadow: 0 0 20px var(--ciano-glow); }
+    50%       { text-shadow: 0 0 40px var(--ciano-glow), 0 0 60px rgba(0,245,255,0.2); }
+}
+
+/* Animação de flutuação (hover nas cards) */
+@keyframes flutuacao {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+}
+
+/* Scanline decorativa sobre placeholders */
+@keyframes scanline {
+    0%   { top: -10%; }
+    100% { top: 110%; }
+}
+
+/* Entrada da nav */
+@keyframes surgirNav {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Aplicando animações -------------------------------------------- */
+.topo__nav {
+    animation: surgirNav 0.6s var(--transicao-lenta) 0.2s both;
+}
+
+/* Cada filho direto do hero__texto entra com delay escalonado */
+.hero__texto > * {
+    animation: surgirCima 0.7s var(--transicao-lenta) both;
+}
+
+.hero__texto > *:nth-child(1) { animation-delay: 0.1s; }
+.hero__texto > *:nth-child(2) { animation-delay: 0.2s; }
+.hero__texto > *:nth-child(3) { animation-delay: 0.3s; }
+.hero__texto > *:nth-child(4) { animation-delay: 0.45s; }
+
+.hero .media-placeholder {
+    animation: surgirDireita 0.8s var(--transicao-lenta) 0.3s both;
+}
+
+/* Botão CTA */
+.botao {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-xs);
+    margin-top: var(--espaco-md);
+    padding: 0.9rem 2rem;
+    background: linear-gradient(135deg, var(--ciano), #00a8b5);
+    color: var(--preto);
+    border-radius: var(--raio-pill);
+    font-family: var(--fonte-mono);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    box-shadow: 0 0 24px var(--ciano-glow);
+    transition:
+        transform var(--transicao-spring),
+        box-shadow var(--transicao-padrao);
+}
+
+/* Seta decorativa no botão com ::after — sem elemento HTML extra */
+.botao::after {
+    content: "→";
+    transition: transform var(--transicao-padrao);
+}
+
+.botao:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 48px var(--ciano-glow), 0 16px 40px rgba(0,0,0,0.4);
+}
+
+.botao:hover::after {
+    transform: translateX(4px);
+}
+
+/* Cards: transição suave — demonstra transition com múltiplas propriedades */
+.card {
+    transition:
+        transform var(--transicao-padrao),
+        box-shadow var(--transicao-padrao),
+        border-color var(--transicao-padrao),
+        background-color var(--transicao-padrao);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    border-color: var(--borda-forte);
+    box-shadow: 0 0 32px var(--ciano-glow), var(--sombra-card);
+    background-color: rgba(17, 17, 32, 0.95);
+}
+
+.card:hover .media-placeholder__icone {
+    animation: flutuacao 1s ease infinite;
+}
+
+
+/* =========================================================================
+   5) PLACEHOLDERS DE MÍDIA
+   Esta caixa indica onde a turma vai inserir <img> ou <video>.
+   O efeito de scanline é feito com ::after — nenhum elemento extra no HTML.
+   ========================================================================= */
+.media-placeholder {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-sm);
+
+    background-color: var(--preto-card);
+    background-image:
+        linear-gradient(var(--linha-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--linha-grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-lg);
+    color: var(--texto-claro-dim);
+    font-family: var(--fonte-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding: var(--espaco-md);
+
+    /* Brilho sutil nas bordas (efeito "tela digital") */
+    box-shadow:
+        inset 0 1px 0 0 rgba(0, 245, 255, 0.06),
+        inset 0 -1px 0 0 rgba(168, 85, 247, 0.06);
+}
+
+/* Indicador pulsante no canto — feito com ::before */
+.media-placeholder::before {
+    content: "⬤ AO VIVO";
+    position: absolute;
+    top: var(--espaco-sm);
+    right: var(--espaco-sm);
+    font-family: var(--fonte-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--ciano);
+    opacity: 0.6;
+    animation: glowPulso 2s ease infinite;
+}
+
+/* Scanline animada — efeito de "tela CRT digital" com ::after */
+.media-placeholder::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(
+        transparent 0%,
+        rgba(0, 245, 255, 0.025) 50%,
+        transparent 100%
+    );
+    animation: scanline 3s linear infinite;
+    pointer-events: none;
+}
+
+.media-placeholder__icone {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 8px var(--ciano));
+    position: relative;
+    z-index: 1;
+}
+
+.media-placeholder__texto {
+    position: relative;
+    z-index: 1;
+    color: var(--texto-claro-dim);
+}
+
+.media-placeholder--grande {
+    aspect-ratio: 16 / 10;
+}
+
+.media-placeholder--video {
+    aspect-ratio: 16 / 9;
+    max-width: 960px;
+    margin: var(--espaco-md) auto 0;
+}
+
+
+/* =========================================================================
+   6) SEÇÕES COM FLEXBOX (hero e conceito)
+   Flexbox: pensa em UMA direção (row ou column).
+   gap = espaço entre os flex items (substitui margin entre irmãos).
+   flex: grow shrink basis = como o item cresce, encolhe e qual é seu tamanho.
+   ========================================================================= */
+.hero,
+.conceito {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-xl);
+    padding: var(--espaco-xl) var(--espaco-lg);
+    max-width: 1340px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.hero__texto,
+.conceito__texto {
+    flex: 1 1 420px;   /* cresce, encolhe, com base de 420px */
+}
+
+.hero .media-placeholder,
+.conceito .media-placeholder {
+    flex: 1 1 360px;
+}
+
+/* Contador automático — cada <section> ganha um número sem escrever no HTML.
+   counter-reset inicia, counter-increment soma +1, counter() lê o valor. */
+main {
+    counter-reset: secao;
+    position: relative;
+    z-index: 1;
+}
+
+main > section {
+    counter-increment: secao;
+}
+
+/* --- HERO --- */
+.hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    color: var(--ciano);
+    font-weight: 700;
+    margin-bottom: var(--espaco-sm);
+}
+
+/* Número da seção antes do eyebrow com counter() */
+.hero__eyebrow::before {
+    content: counter(secao, decimal-leading-zero);
+    font-family: var(--fonte-mono);
+    font-size: 0.65rem;
+    background: var(--ciano-dim);
+    border: 1px solid var(--borda-forte);
+    border-radius: var(--raio-pill);
+    padding: 0.15rem 0.5rem;
+    color: var(--ciano);
+}
+
+.hero h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    margin: var(--espaco-sm) 0;
+    color: var(--texto-claro);
+    font-weight: 900;
+
+    /* Gradiente no título principal */
+    background: linear-gradient(
+        135deg,
+        var(--texto-claro) 0%,
+        rgba(0, 245, 255, 0.9) 50%,
+        var(--violeta) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero__sub {
+    color: var(--texto-claro-suave);
+    max-width: 46ch;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+/* --- SEÇÃO CONCEITO ---
+   flex-direction: row-reverse inverte a ordem VISUAL sem mudar o HTML. */
+.conceito {
+    flex-direction: row-reverse;
+    max-width: 100%;
+    background: linear-gradient(
+        180deg,
+        rgba(168, 85, 247, 0.04) 0%,
+        transparent 100%
+    );
+    border-top: 1px solid var(--borda);
+    border-bottom: 1px solid var(--borda);
+    padding-left: max(var(--espaco-lg), calc((100% - 1340px) / 2 + var(--espaco-lg)));
+    padding-right: max(var(--espaco-lg), calc((100% - 1340px) / 2 + var(--espaco-lg)));
+}
+
+/* Rótulo antes do h2 da seção conceito */
+.conceito h2::before {
+    content: counter(secao, decimal-leading-zero) " — DEFINIÇÃO";
+    display: block;
+    font-family: var(--fonte-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: var(--violeta);
+    margin-bottom: var(--espaco-sm);
+    opacity: 0.8;
+}
+
+.conceito h2 {
+    color: var(--texto-claro);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    background: linear-gradient(135deg, var(--texto-claro), var(--violeta));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--espaco-md);
+}
+
+.conceito__texto {
+    max-width: 600px;
+}
+
+.conceito__texto p {
+    color: var(--texto-claro-suave);
+    margin-bottom: var(--espaco-sm);
+    font-size: 1.02rem;
+}
+
+/* strong dentro do conceito: sobrescreve herança de color */
+.conceito__texto strong {
+    color: var(--ciano);
+    font-weight: 700;
+}
+
+/* Placeholder do conceito com cor secundária (violeta) */
+.conceito .media-placeholder {
+    border-color: rgba(168, 85, 247, 0.2);
+    box-shadow:
+        inset 0 1px 0 0 rgba(168, 85, 247, 0.08),
+        0 0 40px rgba(168, 85, 247, 0.06);
+}
+
+.conceito .media-placeholder::before {
+    color: var(--violeta);
+}
+
+
+/* =========================================================================
+   7) SEÇÕES COM CSS GRID (experiências e estratégia)
+   Grid: pensa em linhas E colunas ao mesmo tempo — ideal para "bento".
+   repeat(auto-fit, minmax(...)) cria colunas responsivas automaticamente,
+   sem precisar de media query para o ajuste básico.
+   ========================================================================= */
+
+/* Seção de experiências — fundo com textura grid */
+.experiencias {
+    background-color: var(--preto);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Orbe decorativo no fundo — 100% CSS, zero HTML */
+.experiencias::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,245,255,0.06) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.experiencias,
+.estrategia {
+    max-width: 100%;
+    padding: var(--espaco-xl) var(--espaco-lg);
+}
+
+/* Centraliza o conteúdo interno das seções full-width */
+.experiencias > *,
+.estrategia > * {
+    max-width: 1340px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Rótulo antes do título de experiências */
+.experiencias h2::before {
+    content: counter(secao, decimal-leading-zero) " — EXPERIÊNCIAS";
+    display: block;
+    font-family: var(--fonte-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: var(--ciano);
+    margin-bottom: var(--espaco-sm);
+    text-align: center;
+    opacity: 0.7;
+}
+
+.experiencias h2,
+.estrategia h2 {
+    text-align: center;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    color: var(--texto-claro);
+    margin-bottom: var(--espaco-xs);
+}
+
+.experiencias h2 {
+    background: linear-gradient(135deg, var(--texto-claro), var(--ciano));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.experiencias__intro {
+    text-align: center;
+    color: var(--texto-claro-suave);
+    max-width: 55ch;
+    margin: var(--espaco-sm) auto var(--espaco-lg);
+    font-size: 1rem;
+}
+
+/* BENTO GRID — layout responsivo automático */
+.experiencias__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--espaco-md);
+    counter-reset: card; /* segundo contador, apenas para os cards */
+}
+
+/* Card estilo "bento": glassmorphism + bordas neon */
+.card {
+    background: linear-gradient(
+        135deg,
+        rgba(17, 17, 32, 0.9) 0%,
+        rgba(13, 13, 20, 0.95) 100%
+    );
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-lg);
+    padding: var(--espaco-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-sm);
+    counter-increment: card;
+    backdrop-filter: blur(8px);
+    box-shadow: var(--sombra-card);
+
+    /* Brilho na borda superior (efeito premium) */
+    box-shadow:
+        inset 0 1px 0 0 rgba(0, 245, 255, 0.1),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Número editorial "01" antes de cada título — feito com counter() */
+.card h3::before {
+    content: counter(card, decimal-leading-zero);
+    font-family: var(--fonte-mono);
+    font-size: 0.65rem;
+    color: var(--ciano);
+    font-weight: 700;
+    background: var(--ciano-dim);
+    border: 1px solid var(--borda-forte);
+    border-radius: var(--raio-pill);
+    padding: 0.1rem 0.45rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--texto-claro);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+}
+
+.card p {
+    color: var(--texto-claro-suave);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* --- SEÇÃO ESTRATÉGIA --- */
+.estrategia {
+    background: linear-gradient(
+        180deg,
+        rgba(168, 85, 247, 0.03) 0%,
+        rgba(0, 245, 255, 0.02) 100%
+    );
+    border-top: 1px solid var(--borda);
+}
+
+.estrategia h2 {
+    background: linear-gradient(135deg, var(--texto-claro), var(--violeta));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.estrategia h2::before {
+    content: counter(secao, decimal-leading-zero) " — COMO APLICAR";
+    display: block;
+    font-family: var(--fonte-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: var(--violeta);
+    margin-bottom: var(--espaco-sm);
+    text-align: center;
+    opacity: 0.7;
+}
+
+/* Grid fixo de 3 colunas no desktop */
+.estrategia__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--espaco-lg);
+    margin-top: var(--espaco-lg);
+}
+
+/* Passo: linha neon no topo + hover que troca de cor */
+.passo {
+    position: relative;
+    padding: var(--espaco-md);
+    background: rgba(17, 17, 32, 0.5);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-lg);
+    overflow: hidden;
+    transition:
+        border-color var(--transicao-padrao),
+        box-shadow var(--transicao-padrao),
+        transform var(--transicao-padrao);
+}
+
+/* Linha brilhante no topo do passo com ::before */
+.passo::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--violeta), var(--ciano));
+    border-radius: var(--raio-lg) var(--raio-lg) 0 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transicao-lenta);
+}
+
+.passo:hover::before {
+    transform: scaleX(1);
+}
+
+.passo:hover {
+    border-color: rgba(168, 85, 247, 0.35);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.1), var(--sombra-card);
+    transform: translateY(-4px);
+}
+
+.passo__numero {
+    display: inline-block;
+    font-family: var(--fonte-display);
+    font-weight: 900;
+    font-size: 3rem;
+    line-height: 1;
+    /* Gradiente no número */
+    background: linear-gradient(135deg, var(--violeta), var(--ciano));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--espaco-sm);
+    display: block;
+}
+
+.passo h3 {
+    color: var(--texto-claro);
+    margin-bottom: var(--espaco-xs);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.passo p {
+    color: var(--texto-claro-suave);
+    font-size: 0.95rem;
+}
+
+/* --- SEÇÃO VÍDEO --- */
+.video-destaque {
+    background-color: var(--preto);
+    text-align: center;
+    padding: var(--espaco-xl) var(--espaco-lg);
+    border-top: 1px solid var(--borda);
+    position: relative;
+    z-index: 1;
+}
+
+.video-destaque h2 {
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    background: linear-gradient(135deg, var(--texto-claro), var(--verde-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--espaco-xs);
+}
+
+/* Rótulo "pill" antes do h2 do vídeo — feito com ::before */
+.video-destaque h2::before {
+    content: counter(secao, decimal-leading-zero) " — REGISTRO";
+    display: inline-block;
+    font-family: var(--fonte-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--preto);
+    background: linear-gradient(135deg, var(--verde-neon), var(--ciano));
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--raio-pill);
+    margin-bottom: var(--espaco-md);
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+.video-destaque p {
+    color: var(--texto-claro-suave);
+    max-width: 55ch;
+    margin: 0 auto var(--espaco-lg);
+}
+
+.video-destaque .media-placeholder {
+    border-color: rgba(57, 255, 20, 0.15);
+}
+
+.video-destaque .media-placeholder::before {
+    color: var(--verde-neon);
+}
+
+
+/* =========================================================================
+   8) RODAPÉ
+   ========================================================================= */
+.rodape {
+    text-align: center;
+    padding: var(--espaco-lg);
+    background-color: var(--preto-suave);
+    color: var(--texto-claro-dim);
+    font-family: var(--fonte-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--borda);
+    position: relative;
+    z-index: 1;
+}
+
+/* Linha neon no topo do rodapé com ::before */
+.rodape::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--ciano), transparent);
+}
+
+.rodape p + p {
+    margin-top: 0.4rem;
+}
+
+/* O segundo parágrafo do rodapé é destacado com ::after */
+.rodape p:last-child::after {
+    content: " · " attr(data-tema);
+}
+
+
+/* =========================================================================
+   9) LAYOUTS RESPONSIVOS — MEDIA QUERIES
+   "Desktop first": layout base para telas grandes, ajustes com max-width.
+   "Mobile first": seria o contrário — base para celular, expansão com min-width.
+   ========================================================================= */
+@media (max-width: 1024px) {
+    :root {
+        --nav-indicador-w: 110px;
+        --espaco-xl: 4rem;
+    }
+}
+
+@media (max-width: 900px) {
+    /* Grid de 3 colunas vira 2 colunas */
+    .estrategia__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .topo__nav ul {
+        gap: 0;
+    }
+
+    :root {
+        --nav-indicador-w: 90px;
+    }
+
+    .topo__nav a {
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --grade: 48px;
+        --espaco-xl: 3rem;
+        --espaco-lg: 2rem;
+    }
+
+    /* Topo empilha verticalmente */
+    .topo {
+        height: auto;
+        padding: var(--espaco-sm) var(--espaco-md);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--espaco-sm);
+    }
+
+    /* Nav ocupa a largura toda */
+    .topo__nav {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .topo__nav ul {
+        width: max-content;
+        min-width: 100%;
+    }
+
+    /* Hero e conceito empilham */
+    .hero,
+    .conceito {
+        flex-direction: column;
+        text-align: left;
+        gap: var(--espaco-lg);
+        padding: var(--espaco-lg) var(--espaco-md);
+    }
+
+    /* Conceito: row-reverse não faz sentido empilhado, volta ao normal */
+    .conceito {
+        flex-direction: column;
+        padding-left: var(--espaco-md);
+        padding-right: var(--espaco-md);
+    }
+
+    /* Grid de estratégia vira coluna única */
+    .estrategia__grid {
+        grid-template-columns: 1fr;
+        gap: var(--espaco-md);
+    }
+
+    /* Seções com menos padding */
+    .experiencias,
+    .estrategia,
+    .video-destaque {
+        padding: var(--espaco-lg) var(--espaco-md);
+    }
+}
+
+/* Respeita quem prefere menos movimento — acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+
+/* =========================================================================
+   10) CHATBOT FIGITAL — Atendente Virtual
+   =========================================================================
+   Demonstra conceitos avançados de CSS:
+   - Seletor ~ (irmão geral): seleciona elementos que vêm DEPOIS no HTML
+   - :checked pseudo-classe: detecta estado do checkbox/radio sem JS
+   - position: fixed para elementos que ficam fixos na tela
+   - Glassmorphism: backdrop-filter + background semi-transparente
+   - Animações de entrada (@keyframes)
+
+   O TRUQUE DO CHECKBOX:
+   O <input type="checkbox" id="chat-toggle"> fica invisível.
+   O <label for="chat-toggle"> é o botão visível.
+   Quando o label é clicado, o checkbox muda de estado (:checked).
+   O CSS usa "#chat-toggle:checked ~ .chatbot" para mostrar o painel.
+   Seletor ~ = "selecione o .chatbot que é irmão do #chat-toggle".
+   ========================================================================= */
+
+/* -----------------------------------------------------------------------
+   Esconde o checkbox nativo — ele existe só para guardar o estado.
+   Na aula de JS: este elemento será removido do HTML completamente.
+   ----------------------------------------------------------------------- */
+.chatbot__toggle-check {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    /* Não usamos display:none pois precisamos que :checked funcione */
+}
+
+/* -----------------------------------------------------------------------
+   FAB — Floating Action Button (botão flutuante de abrir o chat)
+   position: fixed faz o botão seguir a tela durante o scroll.
+   ----------------------------------------------------------------------- */
+.chatbot__fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 999;
+
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    /* Gradiente ciano → violeta — conecta ao tema Figital */
+    background: linear-gradient(135deg, var(--ciano) 0%, var(--violeta) 100%);
+    box-shadow:
+        0 0 0 0 var(--ciano-glow),
+        0 8px 32px rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Animação de "pulso" para chamar atenção */
+    animation: fabPulso 2.5s ease-in-out infinite;
+    transition:
+        transform var(--transicao-spring),
+        box-shadow var(--transicao-padrao);
+}
+
+/* Pulso do FAB — anima o box-shadow para parecer que "respira" */
+@keyframes fabPulso {
+    0%, 100% {
+        box-shadow:
+            0 0 0 0 var(--ciano-glow),
+            0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        box-shadow:
+            0 0 0 12px transparent,
+            0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.chatbot__fab:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow:
+        0 0 0 0 transparent,
+        0 0 40px var(--ciano-glow),
+        0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Os dois ícones do FAB (chat e fechar) */
+.chatbot__fab-icone {
+    font-size: 1.4rem;
+    position: absolute;
+    transition:
+        opacity var(--transicao-padrao),
+        transform var(--transicao-spring);
+}
+
+/* Estado padrão: ícone de chat visível, fechar invisível */
+.chatbot__fab-icone--abrir  { opacity: 1; transform: scale(1) rotate(0deg); }
+.chatbot__fab-icone--fechar { opacity: 0; transform: scale(0.5) rotate(-90deg); font-style: normal; font-size: 1.1rem; }
+
+/* Quando o checkbox está :checked (chat aberto):
+   ~ = seletor irmão geral (seleciona .chatbot__fab que vem DEPOIS do #chat-toggle) */
+.chatbot__toggle-check:checked ~ .chatbot__fab .chatbot__fab-icone--abrir  {
+    opacity: 0;
+    transform: scale(0.5) rotate(90deg);
+}
+.chatbot__toggle-check:checked ~ .chatbot__fab .chatbot__fab-icone--fechar {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+/* Para a animação do pulso quando aberto */
+.chatbot__toggle-check:checked ~ .chatbot__fab {
+    animation: none;
+}
+
+/* -----------------------------------------------------------------------
+   PAINEL DO CHATBOT
+   Por padrão fica escondido (opacity: 0, pointer-events: none, escala menor).
+   Quando :checked, anima para o estado visível.
+   ----------------------------------------------------------------------- */
+.chatbot {
+    position: fixed;
+    bottom: calc(2rem + 60px + 1rem); /* acima do FAB */
+    right: 2rem;
+    z-index: 998;
+
+    width: 360px;
+    max-width: calc(100vw - 2rem);
+    max-height: 520px;
+    border-radius: var(--raio-lg);
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    /* Glassmorphism do painel */
+    background: rgba(13, 13, 20, 0.92);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--borda-forte);
+    box-shadow:
+        0 0 0 1px rgba(0, 245, 255, 0.05),
+        0 0 60px rgba(0, 245, 255, 0.1),
+        0 32px 64px rgba(0, 0, 0, 0.7);
+
+    /* Estado inicial: invisível e levemente abaixo da posição final */
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+    pointer-events: none;
+    transform-origin: bottom right;
+    transition:
+        opacity var(--transicao-padrao),
+        transform var(--transicao-spring);
+}
+
+/* Linha neon no topo do painel — feita com ::before */
+.chatbot::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--ciano), var(--violeta), var(--magenta));
+    z-index: 1;
+}
+
+/* Quando o checkbox está :checked: o painel aparece com animação */
+.chatbot__toggle-check:checked ~ .chatbot {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+/* -----------------------------------------------------------------------
+   HEADER DO CHATBOT
+   ----------------------------------------------------------------------- */
+.chatbot__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--espaco-sm) var(--espaco-md);
+    background: rgba(0, 245, 255, 0.04);
+    border-bottom: 1px solid var(--borda);
+    flex-shrink: 0;
+}
+
+.chatbot__agente {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-sm);
+}
+
+.chatbot__avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ciano-dim), var(--violeta-dim));
+    border: 1px solid var(--borda-forte);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.chatbot__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.chatbot__nome {
+    font-family: var(--fonte-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--texto-claro);
+    letter-spacing: -0.01em;
+}
+
+/* Status "online" com ponto pulsante */
+.chatbot__status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--fonte-mono);
+    font-size: 0.65rem;
+    color: var(--texto-claro-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* Ponto verde pulsante — feito com animação, sem imagem */
+.chatbot__status-ponto {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--verde-neon);
+    box-shadow: 0 0 8px var(--verde-neon);
+    display: inline-block;
+    animation: pontoPulso 1.8s ease-in-out infinite;
+}
+
+@keyframes pontoPulso {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Botão de fechar no header */
+.chatbot__fechar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: var(--texto-claro-suave);
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid transparent;
+    transition:
+        color var(--transicao-rapida),
+        background var(--transicao-rapida),
+        border-color var(--transicao-rapida);
+}
+
+.chatbot__fechar:hover {
+    color: var(--texto-claro);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--borda);
+}
+
+/* -----------------------------------------------------------------------
+   ÁREA DE MENSAGENS
+   ----------------------------------------------------------------------- */
+.chatbot__mensagens {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--espaco-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-sm);
+
+    /* Scrollbar fina combinando com o tema */
+    scrollbar-width: thin;
+    scrollbar-color: var(--borda-forte) transparent;
+}
+
+.chatbot__mensagens::-webkit-scrollbar { width: 4px; }
+.chatbot__mensagens::-webkit-scrollbar-track { background: transparent; }
+.chatbot__mensagens::-webkit-scrollbar-thumb {
+    background: var(--borda-forte);
+    border-radius: var(--raio-pill);
+}
+
+/* Mensagem individual — wrapper com avatar + balão */
+.chatbot__msg {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--espaco-xs);
+    animation: msgEntrar 0.3s var(--transicao-lenta) both;
+}
+
+@keyframes msgEntrar {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Mensagem do BOT: avatar à esquerda, balão à direita */
+.chatbot__msg--bot {
+    align-self: flex-start;
+}
+
+/* Mensagem do USUÁRIO: sem avatar, balão empurrado para a direita */
+.chatbot__msg--user {
+    align-self: flex-end;
+    flex-direction: row-reverse; /* balão alinha à direita */
+}
+
+/* Avatar pequeno do bot nas mensagens */
+.chatbot__msg-avatar {
+    font-size: 1rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--ciano-dim);
+    border: 1px solid var(--borda);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Balão de mensagem */
+.chatbot__msg-balao {
+    max-width: 78%;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--raio);
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+/* Balão do BOT: fundo escuro com borda ciano sutil */
+.chatbot__msg--bot .chatbot__msg-balao {
+    background: rgba(0, 245, 255, 0.06);
+    border: 1px solid rgba(0, 245, 255, 0.12);
+    border-bottom-left-radius: 4px;
+    color: var(--texto-claro);
+}
+
+/* Balão do USUÁRIO: gradiente ciano com texto escuro */
+.chatbot__msg--user .chatbot__msg-balao {
+    background: linear-gradient(135deg, var(--ciano), #00b8c4);
+    border-bottom-right-radius: 4px;
+    color: var(--preto);
+    font-weight: 500;
+}
+
+/* Parágrafos dentro do balão */
+.chatbot__msg-balao p {
+    max-width: 100%;
+}
+
+.chatbot__msg-balao p + p {
+    margin-top: 0.35rem;
+}
+
+.chatbot__msg-balao strong {
+    color: var(--ciano);
+}
+
+/* Balão do usuário: strong em escuro */
+.chatbot__msg--user .chatbot__msg-balao strong {
+    color: var(--preto);
+}
+
+/* -----------------------------------------------------------------------
+   CHIPS DE SUGESTÃO
+   ----------------------------------------------------------------------- */
+.chatbot__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-xs);
+    padding-left: calc(26px + var(--espaco-xs)); /* alinha com os balões do bot */
+}
+
+.chatbot__chip {
+    background: transparent;
+    border: 1px solid var(--borda-forte);
+    border-radius: var(--raio-pill);
+    color: var(--ciano);
+    font-family: var(--fonte-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    transition:
+        background var(--transicao-rapida),
+        color var(--transicao-rapida),
+        border-color var(--transicao-rapida),
+        transform var(--transicao-spring);
+}
+
+.chatbot__chip:hover {
+    background: var(--ciano);
+    color: var(--preto);
+    border-color: var(--ciano);
+    transform: translateY(-2px);
+}
+
+/* -----------------------------------------------------------------------
+   INDICADOR DE "DIGITANDO..." (typing indicator)
+   Três pontos que saltam em sequência — animação só com CSS!
+   Na aula de JS: mostrar este elemento durante o fetch() e esconder depois.
+   ----------------------------------------------------------------------- */
+.chatbot__digitando {
+    display: none; /* JS vai trocar para display: flex */
+    align-items: center;
+    gap: 4px;
+    padding: 0.5rem 0.9rem;
+    background: rgba(0, 245, 255, 0.06);
+    border: 1px solid rgba(0, 245, 255, 0.12);
+    border-radius: var(--raio);
+    border-bottom-left-radius: 4px;
+    width: fit-content;
+    align-self: flex-start;
+    margin-left: calc(26px + var(--espaco-xs));
+}
+
+.chatbot__digitando span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--ciano);
+    opacity: 0.4;
+    animation: digitando 1.2s ease-in-out infinite;
+}
+
+/* Delay escalonado nos três pontos — efeito ondulante */
+.chatbot__digitando span:nth-child(1) { animation-delay: 0s; }
+.chatbot__digitando span:nth-child(2) { animation-delay: 0.2s; }
+.chatbot__digitando span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes digitando {
+    0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+    30%            { opacity: 1;   transform: translateY(-5px); }
+}
+
+/* -----------------------------------------------------------------------
+   FORMULÁRIO DE ENVIO
+   ----------------------------------------------------------------------- */
+.chatbot__form {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-xs);
+    padding: var(--espaco-sm) var(--espaco-md);
+    border-top: 1px solid var(--borda);
+    background: rgba(5, 5, 8, 0.5);
+    flex-shrink: 0;
+}
+
+.chatbot__input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-pill);
+    color: var(--texto-claro);
+    font-family: var(--fonte-texto);
+    font-size: 0.88rem;
+    padding: 0.55rem 1rem;
+    outline: none;
+    transition:
+        border-color var(--transicao-rapida),
+        box-shadow var(--transicao-rapida);
+}
+
+.chatbot__input::placeholder {
+    color: var(--texto-claro-dim);
+}
+
+/* Destaque no foco — :focus é pseudo-classe de estado do teclado/mouse */
+.chatbot__input:focus {
+    border-color: var(--ciano);
+    box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.1);
+}
+
+/* Botão enviar */
+.chatbot__enviar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, var(--ciano), var(--violeta));
+    color: var(--preto);
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition:
+        transform var(--transicao-spring),
+        box-shadow var(--transicao-padrao);
+}
+
+.chatbot__enviar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px var(--ciano-glow);
+}
+
+.chatbot__enviar:active {
+    transform: scale(0.95);
+}
+
+/* -----------------------------------------------------------------------
+   RODAPÉ DO CHATBOT
+   ----------------------------------------------------------------------- */
+.chatbot__rodape {
+    text-align: center;
+    font-family: var(--fonte-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--texto-claro-dim);
+    padding: var(--espaco-xs) var(--espaco-md);
+    background: rgba(5, 5, 8, 0.5);
+    border-top: 1px solid var(--borda);
+    max-width: 100%;
+    flex-shrink: 0;
+}
+
+/* -----------------------------------------------------------------------
+   RESPONSIVO: ajustes do chatbot em telas pequenas
+   ----------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .chatbot__fab {
+        bottom: 1.25rem;
+        right: 1.25rem;
+        width: 52px;
+        height: 52px;
+    }
+
+    .chatbot {
+        bottom: calc(1.25rem + 52px + 0.75rem);
+        right: 1.25rem;
+        width: calc(100vw - 2.5rem);
+        max-height: 70vh;
+    }
+}
